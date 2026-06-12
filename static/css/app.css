@@ -1,0 +1,207 @@
+/* ============================================================
+   Калькулятор ремонтных работ — единый стиль приложения
+   Тёплая «инженерная» палитра: бумажный фон, графитовая навигация,
+   охристый акцент. Шрифты: Inter (интерфейс) + JetBrains Mono (данные).
+   ============================================================ */
+
+:root{
+  --bg:#F4F2ED;
+  --surface:#FFFFFF;
+  --surface-2:#FAF9F5;
+  --ink:#1E2127;
+  --ink-2:#2A2E36;
+  --line:#E5E1D8;
+  --line-strong:#D7D2C5;
+  --text:#23262C;
+  --muted:#7C786E;
+  --accent:#A85F22;
+  --accent-hover:#8F4F18;
+  --accent-soft:#F4E8D8;
+  --success:#2F7A57;
+  --success-soft:#E3F0E9;
+  --danger:#BC4A3C;
+  --danger-soft:#F6E3E0;
+  --warning:#B4811A;
+  --warning-soft:#F6ECD6;
+  --info:#3A6EA5;
+  --radius:10px;
+  --radius-sm:7px;
+  --shadow:0 1px 2px rgba(30,33,39,.04), 0 4px 16px rgba(30,33,39,.05);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+  font-size:14.5px;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hover)}
+
+/* ───────────── навигация ───────────── */
+nav{
+  background:var(--ink);
+  color:#EBE8E1;
+  padding:0 22px;
+  display:flex;align-items:center;gap:2px;flex-wrap:wrap;
+  min-height:58px;
+  box-shadow:0 1px 0 rgba(0,0,0,.2);
+}
+nav .brand{
+  font-weight:700;font-size:15px;letter-spacing:.2px;
+  color:#fff;margin-right:18px;display:flex;align-items:center;gap:8px;
+  padding:8px 0;
+}
+nav .brand .mark{
+  width:22px;height:22px;border-radius:6px;
+  background:var(--accent);display:inline-flex;align-items:center;justify-content:center;
+  font-size:13px;color:#fff;font-weight:800;
+}
+nav a{
+  color:#C3BFB6;
+  padding:8px 13px;border-radius:7px;font-size:13.5px;font-weight:500;
+  transition:background .15s,color .15s;
+}
+nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-right{
+  margin-left:auto;display:flex;align-items:center;gap:14px;font-size:13px;
+}
+.nav-right .user{
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:#9C988F;
+  display:flex;align-items:center;gap:7px;
+}
+.nav-right .user b{color:#EBE8E1;font-weight:600}
+.nav-right .role{
+  background:rgba(168,95,34,.22);color:#E6B783;
+  padding:2px 8px;border-radius:20px;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+}
+.nav-right a.logout{color:#C3BFB6;padding:6px 12px;border:1px solid rgba(255,255,255,.14);border-radius:7px}
+.nav-right a.logout:hover{border-color:var(--danger);color:#E89A8F;background:transparent}
+
+/* ───────────── раскладка ───────────── */
+.container{max-width:1200px;margin:30px auto;padding:0 22px}
+
+/* ───────────── заголовки ───────────── */
+h1{
+  font-size:23px;font-weight:700;color:var(--ink);margin-bottom:22px;
+  letter-spacing:-.2px;display:flex;align-items:center;gap:10px;
+}
+h1::before{
+  content:"";width:4px;height:22px;background:var(--accent);border-radius:3px;display:inline-block;
+}
+h2{font-size:15px;font-weight:600;color:var(--ink-2);margin:26px 0 12px;letter-spacing:.1px}
+
+/* ───────────── флеш-сообщения ───────────── */
+.flash{
+  padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:16px;font-size:14px;
+  border:1px solid;display:flex;align-items:center;gap:9px;
+}
+.flash::before{font-family:'JetBrains Mono',monospace;font-weight:700}
+.flash.success{background:var(--success-soft);color:#1E5A3D;border-color:#BBDDC9}
+.flash.success::before{content:"✓"}
+.flash.error{background:var(--danger-soft);color:#8E2E22;border-color:#E9C2BB}
+.flash.error::before{content:"!"}
+
+/* ───────────── таблицы ───────────── */
+table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  background:var(--surface);font-size:14px;
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);
+}
+th{
+  background:var(--surface-2);
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;color:var(--muted);
+  padding:13px 14px;text-align:left;border-bottom:1px solid var(--line-strong);
+}
+td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--text)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--surface-2)}
+
+/* ───────────── кнопки ───────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;justify-content:center;
+  padding:8px 15px;border:1px solid transparent;border-radius:var(--radius-sm);
+  cursor:pointer;font-size:13.5px;font-weight:600;font-family:inherit;
+  text-decoration:none;line-height:1.3;transition:filter .15s,background .15s,border-color .15s;
+  white-space:nowrap;
+}
+.btn:hover{filter:brightness(.96)}
+.btn:active{transform:translateY(.5px)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-secondary{background:var(--surface);color:var(--text);border-color:var(--line-strong)}
+.btn-secondary:hover{background:var(--surface-2);color:var(--text)}
+.btn-warning{background:var(--warning);color:#fff}
+
+/* ───────────── формы ───────────── */
+.form-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow);max-width:760px;
+}
+.form-group{margin-bottom:16px}
+.form-group label{
+  display:block;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;
+  letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);
+  font-size:14px;font-family:inherit;background:var(--surface);color:var(--text);transition:border-color .15s,box-shadow .15s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);
+}
+.form-row{display:flex;gap:18px;flex-wrap:wrap}
+.form-row .form-group{flex:1;min-width:180px}
+.form-actions{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* таблица позиций работ в редакторе проекта */
+#works-table input,#works-table select{
+  width:100%;padding:6px 8px;font-size:13px;
+  border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);
+}
+#works-table td{padding:7px}
+
+/* ───────────── панель действий ───────────── */
+.toolbar{display:flex;gap:10px;margin-bottom:18px;align-items:center;flex-wrap:wrap}
+
+/* ───────────── карточки статистики (дашборд) ───────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:14px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);
+}
+.stat-card .num{font-size:34px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-1px}
+.stat-card .lbl{
+  margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;
+  letter-spacing:.4px;text-transform:uppercase;color:var(--muted);
+}
+.stat-card.c-projects::before{background:var(--accent)}
+.stat-card.c-materials::before{background:var(--success)}
+.stat-card.c-contractors::before{background:var(--info)}
+.stat-card.c-suppliers::before{background:var(--warning)}
+
+/* пустое состояние таблицы */
+.empty-row td{text-align:center;color:var(--muted);padding:34px 14px}
+
+@media(max-width:760px){
+  nav{padding:0 14px}
+  .nav-right .user{display:none}
+  .container{margin:20px auto}
+  table{font-size:13px}
+  th,td{padding:10px}
+}

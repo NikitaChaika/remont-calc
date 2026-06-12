@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Калькулятор ремонтных работ{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+
+{% if session.user_id %}
+<nav>
+    <span class="brand"><span class="mark">Р</span> Ремонт-калькулятор</span>
+    <a href="{{ url_for('dashboard') }}">Главная</a>
+    <a href="{{ url_for('projects') }}">Проекты</a>
+    <a href="{{ url_for('customers') }}">Заказчики</a>
+    <a href="{{ url_for('materials') }}">Материалы</a>
+    <a href="{{ url_for('contractors') }}">Подрядчики</a>
+    <a href="{{ url_for('suppliers') }}">Поставщики</a>
+    <a href="{{ url_for('work_types') }}">Типы работ</a>
+    <div class="nav-right">
+        <span class="user"><b>{{ session.user_name }}</b><span class="role">{{ session.user_role }}</span></span>
+        <a href="{{ url_for('logout') }}" class="logout">Выйти</a>
+    </div>
+</nav>
+{% endif %}
+
+<div class="container">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

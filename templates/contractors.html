@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>👷 Подрядчики</h1>
+
+<div class="toolbar">
+    {% if session.user_role == 'admin' %}
+    <a href="{{ url_for('contractor_edit') }}" class="btn btn-primary">➕ Добавить</a>
+    {% endif %}
+</div>
+
+<table>
+    <thead>
+        <tr><th>ID</th><th>Имя</th><th>Телефон</th><th>Тип работ</th><th>Цена за м²</th><th>Действия</th></tr>
+    </thead>
+    <tbody>
+    {% for c in contractors %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.phone or '—' }}</td>
+            <td>{{ c.work_type.name if c.work_type else '—' }}</td>
+            <td>{{ '%.2f'|format(c.price_per_sqm) }}</td>
+            <td style="white-space:nowrap;">
+                {% if session.user_role == 'admin' %}
+                <a href="{{ url_for('contractor_edit', contractor_id=c.id) }}" class="btn btn-warning">✏️</a>
+                <form method="post" action="{{ url_for('contractor_delete', contractor_id=c.id) }}"
+                      style="display:inline"
+                      onsubmit="return confirm('Удалить подрядчика «{{ c.name }}»?')">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger">🗑️</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="6" style="text-align:center;color:#888;">Подрядчиков нет</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
