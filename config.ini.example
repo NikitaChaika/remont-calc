@@ -1,6 +1,0 @@
-[database]
-host = localhost
-port = 5432
-user = postgres
-password = ВАШ_ПАРОЛЬ_СЮДА
-database = remont_db
