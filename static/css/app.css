@@ -1,0 +1,181 @@
+/* ============================================================
+   РЕМОНТ-КАЛЬКУЛЯТОР — «инженерный» интерфейс рабочего инструмента.
+   Графит/сталь + акцент цвета строительной каски (амбер).
+   Шрифты: IBM Plex Sans / Condensed / Mono (технический характер).
+   ============================================================ */
+:root{
+  --bg:#E8E9EC;
+  --panel:#FFFFFF;
+  --panel-2:#F3F4F6;
+  --ink:#15181D;
+  --ink-2:#23272E;
+  --steel:#5C6573;
+  --steel-2:#828B99;
+  --line:#D6D9DE;
+  --line-2:#C3C7CE;
+  --accent:#E0922A;
+  --accent-h:#C77E1C;
+  --accent-ink:#1c1407;
+  --amber-soft:#F7EDDC;
+  --ok:#3C7B50;
+  --danger:#BE463A;
+  --danger-soft:#F4E0DD;
+  --sidebar:#15181D;
+  --sidebar-2:#1D2128;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.5;font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent-h);text-decoration:none}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+/* ─────────── каркас: сайдбар + контент ─────────── */
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:232px;flex:0 0 232px;background:var(--sidebar);color:#C7CCD4;
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+  border-right:1px solid #000;
+}
+.sidebar .brand{
+  display:flex;align-items:center;gap:11px;padding:20px 20px 18px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sidebar .brand .mark{
+  width:30px;height:30px;flex:0 0 30px;background:var(--accent);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;color:var(--accent-ink);
+}
+.sidebar .brand .mark svg{width:17px;height:17px}
+.sidebar .brand .name{
+  font-family:'IBM Plex Sans Condensed','IBM Plex Sans',sans-serif;
+  font-weight:700;font-size:16px;letter-spacing:.3px;color:#fff;line-height:1.1;
+}
+.sidebar .brand .name small{display:block;font-size:9.5px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--steel-2);font-weight:500;margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.sidebar nav{padding:12px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.sidebar nav a{
+  display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:7px;
+  color:#A8AFBB;font-size:13.5px;font-weight:500;transition:background .12s,color .12s;position:relative;
+}
+.sidebar nav a svg{width:17px;height:17px;flex:0 0 17px;opacity:.85}
+.sidebar nav a:hover{background:rgba(255,255,255,.05);color:#EDEFF2}
+.sidebar nav a.active{background:var(--sidebar-2);color:#fff}
+.sidebar nav a.active::before{
+  content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;background:var(--accent);border-radius:0 3px 3px 0;
+}
+.sidebar nav a.active svg{opacity:1;color:var(--accent)}
+.sidebar .foot{
+  border-top:1px solid rgba(255,255,255,.07);padding:14px 16px;display:flex;align-items:center;gap:10px;
+}
+.sidebar .foot .who{flex:1;min-width:0}
+.sidebar .foot .who b{display:block;color:#EDEFF2;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar .foot .who span{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.sidebar .foot a.exit{color:var(--steel-2);display:flex;padding:7px;border:1px solid rgba(255,255,255,.12);border-radius:6px}
+.sidebar .foot a.exit:hover{color:#E89A8F;border-color:var(--danger)}
+.sidebar .foot a.exit svg{width:16px;height:16px}
+
+.main{flex:1;min-width:0}
+.container{max-width:1180px;margin:0 auto;padding:30px 34px 60px}
+
+/* ─────────── заголовки ─────────── */
+h1{
+  font-family:'IBM Plex Sans Condensed','IBM Plex Sans',sans-serif;
+  font-size:26px;font-weight:700;color:var(--ink);letter-spacing:.2px;
+  margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;
+}
+h2{font-size:12px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1px;
+   text-transform:uppercase;color:var(--steel);margin:26px 0 12px}
+
+/* ─────────── флеш ─────────── */
+.flash{padding:11px 15px;margin-bottom:14px;font-size:13.5px;border-left:3px solid;display:flex;align-items:center;gap:9px;font-weight:500}
+.flash.success{background:#EAF2EC;border-color:var(--ok);color:#225E36}
+.flash.error{background:var(--danger-soft);border-color:var(--danger);color:#8C2C22}
+
+/* ─────────── панель действий ─────────── */
+.toolbar{display:flex;gap:9px;margin-bottom:18px;align-items:center;flex-wrap:wrap}
+
+/* ─────────── таблицы ─────────── */
+table{
+  width:100%;border-collapse:collapse;background:var(--panel);
+  border:1px solid var(--line);font-size:13.5px;
+}
+th{
+  background:var(--panel-2);font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--steel);
+  text-align:left;padding:11px 14px;border-bottom:2px solid var(--line-2);white-space:nowrap;
+}
+td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--panel-2)}
+td .num,td.num,.tnum{font-family:'IBM Plex Mono',monospace;text-align:right}
+
+/* ─────────── кнопки ─────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;justify-content:center;
+  padding:8px 14px;border:1px solid transparent;cursor:pointer;border-radius:6px;
+  font-size:13px;font-weight:600;font-family:inherit;line-height:1.2;
+  text-decoration:none;transition:background .13s,border-color .13s,color .13s;white-space:nowrap;
+}
+.btn .ico{width:15px;height:15px;flex:0 0 15px}
+.btn:active{transform:translateY(.5px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:var(--accent-h);color:var(--accent-ink)}
+.btn-secondary{background:var(--panel);color:var(--ink-2);border-color:var(--line-2)}
+.btn-secondary:hover{background:var(--panel-2);border-color:var(--steel-2)}
+.btn-warning{background:transparent;color:var(--steel);border-color:var(--line-2);padding:7px 10px}
+.btn-warning:hover{color:var(--accent-h);border-color:var(--accent)}
+.btn-danger{background:transparent;color:var(--danger);border-color:var(--line-2);padding:7px 10px}
+.btn-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn-success{background:var(--accent);color:var(--accent-ink)}
+.btn-success:hover{background:var(--accent-h)}
+
+/* ─────────── формы ─────────── */
+.form-card{background:var(--panel);border:1px solid var(--line);padding:26px 28px;max-width:780px;position:relative}
+.form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--accent)}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.6px;text-transform:uppercase;color:var(--steel);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--line-2);font-size:14px;font-family:inherit;
+  background:var(--panel);color:var(--ink);border-radius:5px;transition:border-color .13s,box-shadow .13s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--amber-soft)}
+.form-row{display:flex;gap:16px;flex-wrap:wrap}
+.form-row .form-group{flex:1;min-width:170px}
+.form-actions{margin-top:22px;display:flex;gap:9px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--line)}
+
+#works-table input,#works-table select{padding:6px 8px;font-size:13px;border-radius:4px}
+#works-table td{padding:6px}
+
+/* ─────────── «приборная» панель дашборда ─────────── */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  background:var(--panel);border:1px solid var(--line)}
+.metric{padding:22px 22px;border-right:1px solid var(--line);position:relative}
+.metric:last-child{border-right:none}
+.metric .top{display:flex;align-items:center;gap:8px;color:var(--steel)}
+.metric .top svg{width:15px;height:15px}
+.metric .top .lbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase}
+.metric .val{font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:600;color:var(--ink);line-height:1;margin-top:12px;letter-spacing:-1px}
+.metric .val::after{content:"";display:block;width:26px;height:3px;background:var(--accent);margin-top:12px}
+
+.empty-row td{text-align:center;color:var(--steel);padding:30px}
+
+/* ─────────── адаптив ─────────── */
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;flex:none;height:auto;position:static;flex-direction:row;align-items:center;
+    overflow-x:auto;border-right:none;border-bottom:1px solid #000}
+  .sidebar .brand{border-bottom:none;padding:12px 16px;flex:0 0 auto}
+  .sidebar .brand .name small{display:none}
+  .sidebar nav{flex-direction:row;flex:1;padding:8px;gap:2px}
+  .sidebar nav a{white-space:nowrap;padding:8px 11px}
+  .sidebar nav a span{display:none}
+  .sidebar nav a.active::before{display:none}
+  .sidebar .foot{border-top:none;border-left:1px solid rgba(255,255,255,.08);padding:10px 14px}
+  .sidebar .foot .who{display:none}
+  .container{padding:22px 18px 50px}
+  .metric{border-right:none;border-bottom:1px solid var(--line)}
+}

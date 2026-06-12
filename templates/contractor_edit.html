@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ 'Редактирование подрядчика' if contractor else 'Новый подрядчик' }}</h1>
+
+<form method="post" style="max-width:500px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-group">
+        <label>Имя *</label>
+        <input type="text" name="name" required value="{{ contractor.name if contractor else '' }}">
+    </div>
+    <div class="form-group">
+        <label>Телефон</label>
+        <input type="text" name="phone" value="{{ contractor.phone if contractor else '' }}">
+    </div>
+    <div class="form-group">
+        <label>Тип работ</label>
+        <select name="work_type_id">
+            <option value="">— не выбран —</option>
+            {% for wt in work_types %}
+            <option value="{{ wt.id }}"
+                {{ 'selected' if contractor and contractor.work_type_id == wt.id else '' }}>
+                {{ wt.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Цена за м² (руб.)</label>
+        <input type="number" name="price_per_sqm" step="0.01" min="0"
+               value="{{ contractor.price_per_sqm if contractor else 0 }}">
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Сохранить</button>
+        <a href="{{ url_for('contractors') }}" class="btn btn-secondary">← Назад</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вход — Ремонт-калькулятор</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root{--ink:#15181D;--accent:#E0922A;--accent-h:#C77E1C;--accent-ink:#1c1407;
+            --line:#C3C7CE;--steel:#5C6573;--danger-soft:#F4E0DD;}
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{font-family:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;
+        display:flex;align-items:center;justify-content:center;padding:20px;color:var(--ink);
+        background:#15181D;
+        background-image:
+          linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+          linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+        background-size:25px 25px,25px 25px,125px 125px,125px 125px;}
+      .card{background:#fff;width:380px;max-width:100%;border-top:3px solid var(--accent);
+        padding:38px 36px 32px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+      .brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+      .brand .mark{width:38px;height:38px;background:var(--accent);display:flex;align-items:center;
+        justify-content:center;color:var(--accent-ink);border-radius:7px}
+      .brand .mark svg{width:21px;height:21px}
+      .brand .t b{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:19px;display:block;line-height:1.05}
+      .brand .t span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.6px;
+        text-transform:uppercase;color:var(--steel)}
+      .head{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+        color:var(--steel);border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:20px}
+      label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.6px;
+        text-transform:uppercase;color:var(--steel);margin:14px 0 6px}
+      input{width:100%;padding:11px 13px;border:1px solid var(--line);font-size:14px;font-family:inherit;
+        border-radius:5px;color:var(--ink)}
+      input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px #F7EDDC}
+      button{width:100%;margin-top:24px;padding:12px;background:var(--accent);color:var(--accent-ink);
+        border:none;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border-radius:5px;
+        transition:background .13s}
+      button:hover{background:var(--accent-h)}
+      .flash{background:var(--danger-soft);color:#8C2C22;padding:11px 14px;border-left:3px solid #BE463A;
+        font-size:13px;margin-bottom:6px}
+    </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h20"/><path d="M4 18V9.5a8 8 0 0 1 16 0V18"/><path d="M12 2v3"/></svg></span>
+      <span class="t"><b>Ремонт-калькулятор</b><span>Система расчёта смет</span></span>
+    </div>
+    <div class="head">Авторизация</div>
+    {% for _, message in get_flashed_messages(with_categories=True) %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label>Логин</label>
+      <input type="text" name="username" autofocus required>
+      <label>Пароль</label>
+      <input type="password" name="password" required>
+      <button type="submit">Войти в систему</button>
+    </form>
+  </div>
+</body>
+</html>

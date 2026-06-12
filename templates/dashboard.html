@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Сводка</h1>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="lbl">Проекты</span></div>
+    <div class="val">{{ projects_count }}</div>
+  </div>
+  <div class="metric">
+    <div class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg><span class="lbl">Материалы</span></div>
+    <div class="val">{{ materials_count }}</div>
+  </div>
+  <div class="metric">
+    <div class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1z"/><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"/><path d="M4 15v-3a6 6 0 0 1 6-6"/><path d="M14 6a6 6 0 0 1 6 6v3"/></svg><span class="lbl">Подрядчики</span></div>
+    <div class="val">{{ contractors_count }}</div>
+  </div>
+  <div class="metric">
+    <div class="top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span class="lbl">Поставщики</span></div>
+    <div class="val">{{ suppliers_count }}</div>
+  </div>
+</div>
+
+<h2>Быстрые действия</h2>
+<div class="toolbar">
+  <a href="{{ url_for('project_edit') }}" class="btn btn-primary"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Новый проект</a>
+  <a href="{{ url_for('projects') }}" class="btn btn-secondary">Все проекты</a>
+  <a href="{{ url_for('materials') }}" class="btn btn-secondary">Материалы</a>
+  <a href="{{ url_for('contractors') }}" class="btn btn-secondary">Подрядчики</a>
+</div>
+{% endblock %}

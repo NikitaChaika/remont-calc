@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ 'Редактирование проекта' if project else 'Новый проект' }}</h1>
+
+<form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Название проекта *</label>
+            <input type="text" name="name" required value="{{ project.name if project else '' }}">
+        </div>
+        <div class="form-group">
+            <label>Статус</label>
+            <select name="status">
+                {% for s in ['Создан', 'В работе', 'Завершён', 'Отменён'] %}
+                <option value="{{ s }}" {{ 'selected' if project and project.status == s else '' }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Заказчик</label>
+            <select name="customer_id">
+                <option value="">— не выбран —</option>
+                {% for c in customers %}
+                <option value="{{ c.id }}"
+                    {{ 'selected' if project and project.customer_id == c.id else '' }}>
+                    {{ c.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Скидка (%)</label>
+            <input type="number" name="discount_percent" step="0.01" min="0" max="100"
+                   value="{{ project.discount_percent if project else 0 }}">
+        </div>
+        <div class="form-group">
+            <label>Лимит скидки (руб.)</label>
+            <input type="number" name="discount_limit" step="0.01" min="0"
+                   value="{{ project.discount_limit if project else 0 }}">
+        </div>
+    </div>
+
+    <h2>Работы</h2>
+
+    <table id="works-table">
+        <thead>
+            <tr>
+                <th>Комната</th>
+                <th>Тип работ</th>
+                <th>Материал</th>
+                <th>Подрядчик</th>
+                <th>Площадь (м²)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="works-body">
+            {% if project %}
+                {% for w in project.works %}
+                <tr>
+                    <td><input type="text" name="room_name[]" value="{{ w.room_name }}"></td>
+                    <td>
+                        <select name="work_type_id[]">
+                            <option value="">—</option>
+                            {% for wt in work_types %}
+                            <option value="{{ wt.id }}" {{ 'selected' if w.work_type_id == wt.id else '' }}>{{ wt.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="material_id[]">
+                            <option value="">—</option>
+                            {% for m in materials %}
+                            <option value="{{ m.id }}" {{ 'selected' if w.material_id == m.id else '' }}>{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="contractor_id[]">
+                            <option value="">—</option>
+                            {% for c in contractors %}
+                            <option value="{{ c.id }}" {{ 'selected' if w.contractor_id == c.id else '' }}>{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td><input type="number" name="area[]" step="0.01" min="0" value="{{ w.area }}"></td>
+                    <td><button type="button" class="btn btn-danger" onclick="removeRow(this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div style="margin-top:10px;">
+        <button type="button" class="btn btn-secondary" onclick="addRow()"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Добавить строку</button>
+    </div>
+
+    {% if project %}
+    <div style="margin-top:20px;background:#ecf0f1;padding:14px;border-radius:6px;">
+        <strong>Себестоимость:</strong> {{ '%.2f'|format(project.total_cost) }} руб. &nbsp;|&nbsp;
+        <strong>Цена клиента:</strong> {{ '%.2f'|format(project.final_client_price) }} руб.
+        <br><small style="color:#777;">Пересчитывается при сохранении</small>
+    </div>
+    {% endif %}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Сохранить</button>
+        <a href="{{ url_for('projects') }}" class="btn btn-secondary">← Назад</a>
+    </div>
+
+</form>
+
+<!-- шаблон строки (скрытый) -->
+<template id="row-template">
+    <tr>
+        <td><input type="text" name="room_name[]" placeholder="Комната"></td>
+        <td>
+            <select name="work_type_id[]">
+                <option value="">—</option>
+                {% for wt in work_types %}
+                <option value="{{ wt.id }}">{{ wt.name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="material_id[]">
+                <option value="">—</option>
+                {% for m in materials %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select name="contractor_id[]">
+                <option value="">—</option>
+                {% for c in contractors %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td><input type="number" name="area[]" step="0.01" min="0" value="0"></td>
+        <td><button type="button" class="btn btn-danger" onclick="removeRow(this)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td>
+    </tr>
+</template>
+
+<script>
+function addRow() {
+    const tmpl = document.getElementById('row-template');
+    const clone = tmpl.content.cloneNode(true);
+    document.getElementById('works-body').appendChild(clone);
+}
+function removeRow(btn) {
+    btn.closest('tr').remove();
+}
+</script>
+{% endblock %}
